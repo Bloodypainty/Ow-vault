@@ -37,12 +37,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-item[data-page=damage] .nav-dot{background:var(--damage)}
 .nav-item[data-page=support] .nav-dot{background:var(--support)}
 .nav-item[data-page=random] .nav-dot{background:linear-gradient(135deg,var(--ow),var(--epic))}
+.nav-item[data-page=manage] .nav-dot{background:var(--ow2)}
 .nav-item.active{color:var(--text);background:var(--bg3)}
 .nav-item.active[data-page=home]{border-color:rgba(255,138,30,.25);background:linear-gradient(90deg,rgba(255,138,30,.08),transparent)}
 .nav-item.active[data-page=tank]{border-color:rgba(74,158,255,.25);background:linear-gradient(90deg,rgba(74,158,255,.08),transparent)}
 .nav-item.active[data-page=damage]{border-color:rgba(242,84,79,.25);background:linear-gradient(90deg,rgba(242,84,79,.08),transparent)}
 .nav-item.active[data-page=support]{border-color:rgba(67,209,127,.25);background:linear-gradient(90deg,rgba(67,209,127,.08),transparent)}
 .nav-item.active[data-page=random]{border-color:rgba(183,110,240,.25);background:linear-gradient(90deg,rgba(183,110,240,.08),transparent)}
+.nav-item.active[data-page=manage]{border-color:rgba(79,195,255,.25);background:linear-gradient(90deg,rgba(79,195,255,.08),transparent)}
 .nav-item.active .nav-dot{box-shadow:0 0 10px currentColor}
 .sidebar-bottom{margin-top:auto;padding:14px 10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
 
@@ -63,7 +65,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .backlink{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:.78rem;cursor:pointer;margin-bottom:14px;font-family:'Rajdhani',sans-serif;letter-spacing:.06em;font-weight:600;transition:.2s}
 .backlink:hover{color:var(--text)}
 
-/* GRID & CARDS (skins) */
+/* GRID & CARDS (items) */
 .skins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
 .skin-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative}
 .skin-card:hover{transform:translateY(-5px);box-shadow:0 12px 34px rgba(0,0,0,.4)}
@@ -87,8 +89,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .skin-rarity-label{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .skin-rarity-label.Mythic{background:linear-gradient(90deg,var(--mythic-a),var(--mythic-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .skin-rarity-label.Legendary{color:var(--legendary)}.skin-rarity-label.Epic{color:var(--epic)}.skin-rarity-label.Rare{color:var(--rare)}.skin-rarity-label.Common{color:var(--common)}
-.skin-variant-tag{font-size:.63rem;color:var(--ow);margin-top:5px;font-weight:600}
-.skin-note{font-size:.68rem;color:var(--text-muted);margin-top:4px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skin-note{font-size:.68rem;color:var(--text-muted);margin-top:6px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-actions{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:0;transition:.2s;z-index:10}
 .skin-card:hover .card-actions{opacity:1}
 .skin-card.selectable .card-actions{display:none!important}
@@ -99,12 +100,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* HERO GRID */
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-.hero-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 14px;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;text-align:center}
+.hero-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 14px;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;text-align:center;position:relative}
 .hero-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
 .hero-avatar{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:#07070a}
 .hero-card .hname{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;letter-spacing:.03em;margin-bottom:3px}
 .hero-card .hcount{font-size:.68rem;color:var(--text-muted)}
 .hero-card .hcount b{color:var(--ow)}
+.hero-card.custom::before{content:'perso';position:absolute;top:8px;left:8px;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ow2);background:rgba(79,195,255,.14);border:1px solid rgba(79,195,255,.3);border-radius:20px;padding:2px 7px}
+.hero-manage-actions{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:0;transition:.2s}
+.hero-card:hover .hero-manage-actions{opacity:1}
+
+/* TABS */
+.tabs{display:flex;gap:3px;margin-bottom:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:4px;width:fit-content;flex-wrap:wrap;max-width:100%}
+.tab{padding:8px 16px;border-radius:calc(var(--r) - 2px);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.05em;font-size:.82rem;color:var(--text-muted);transition:.2s;border:none;background:none;white-space:nowrap}
+.tab.active{background:var(--bg5);color:var(--text);box-shadow:0 1px 8px rgba(0,0,0,.3)}
+.tab:hover:not(.active){color:var(--text-dim)}
+.tab .tcount{color:var(--text-faint,var(--text-muted));margin-left:5px;font-size:.72rem}
 
 /* SEARCH & FILTER */
 .search-bar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
@@ -141,6 +152,9 @@ select option{background:var(--bg4)}
 .rarity-select{display:flex;gap:7px;flex-wrap:wrap}
 .rarity-opt{padding:7px 15px;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;border:2px solid transparent;font-family:'Rajdhani',sans-serif;letter-spacing:.05em;color:var(--text-dim);background:var(--bg4);transition:.2s}
 .rarity-opt.active{color:#07070a;border-color:rgba(255,255,255,.25)}
+.cat-select{display:flex;gap:7px;flex-wrap:wrap}
+.cat-opt{padding:7px 14px;border-radius:20px;font-size:.76rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);font-family:'Exo 2',sans-serif;color:var(--text-dim);background:var(--bg4);transition:.2s}
+.cat-opt.active{background:rgba(255,138,30,.18);border-color:rgba(255,138,30,.45);color:#fff}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:var(--r);border:none;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;letter-spacing:.06em;transition:.2s;white-space:nowrap}
@@ -170,13 +184,17 @@ select option{background:var(--bg4)}
 .stat-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 22px;flex:1;min-width:130px}
 .stat-number{font-family:'Rajdhani',sans-serif;font-size:2.1rem;font-weight:700;line-height:1}
 .stat-label{font-size:.66rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
-.rarity-overview{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 22px;margin-bottom:26px}
+.rarity-overview{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 22px;margin-bottom:18px}
 .rarity-overview .lbl{font-size:.66rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
 .rarity-track{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--bg4)}
 .rarity-track span{height:100%}
 .rarity-track-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:.72rem;color:var(--text-dim)}
 .rarity-track-legend .li{display:flex;align-items:center;gap:6px}
 .rarity-track-legend .sw{width:9px;height:9px;border-radius:3px}
+.cat-overview{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.cat-chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:.74rem;color:var(--text-dim);display:flex;align-items:center;gap:7px;cursor:pointer;transition:.2s}
+.cat-chip:hover{border-color:var(--border2);color:var(--text)}
+.cat-chip b{color:var(--ow)}
 .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-bottom:30px}
 .game-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rx);padding:24px 20px;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
 .game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px}
@@ -193,6 +211,9 @@ select option{background:var(--bg4)}
 .game-card.rand{border-color:rgba(183,110,240,.2)}.game-card.rand::before{background:linear-gradient(90deg,transparent,var(--epic),transparent);opacity:.5}
 .game-card.rand:hover{box-shadow:0 10px 36px rgba(183,110,240,.15);border-color:rgba(183,110,240,.35)}
 .game-card.rand .game-card-name{background:linear-gradient(135deg,var(--epic),var(--ow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.game-card.manage{border-color:rgba(79,195,255,.2)}.game-card.manage::before{background:linear-gradient(90deg,transparent,var(--ow2),transparent);opacity:.5}
+.game-card.manage:hover{box-shadow:0 10px 36px rgba(79,195,255,.15);border-color:rgba(79,195,255,.35)}
+.game-card.manage .game-card-name{color:var(--ow2)}
 .game-card-icon{font-size:1.8rem}
 .game-card-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:.04em}
 .game-card-count{color:var(--text-muted);font-size:.76rem}
@@ -209,6 +230,8 @@ select option{background:var(--bg4)}
 .role-filter-pill[data-role=tank].active{background:rgba(74,158,255,.14);border-color:rgba(74,158,255,.4);color:var(--tank)}
 .role-filter-pill[data-role=damage].active{background:rgba(242,84,79,.14);border-color:rgba(242,84,79,.4);color:var(--damage)}
 .role-filter-pill[data-role=support].active{background:rgba(67,209,127,.14);border-color:rgba(67,209,127,.4);color:var(--support)}
+.cat-filter-pill{padding:8px 14px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg3);font-family:'Exo 2',sans-serif;font-weight:600;font-size:.78rem;color:var(--text-dim);transition:.22s;cursor:pointer}
+.cat-filter-pill.active{background:rgba(255,138,30,.14);border-color:rgba(255,138,30,.4);color:var(--ow)}
 .rand-btn{font-size:1.05rem;padding:14px 34px;border-radius:var(--rl);background:linear-gradient(135deg,rgba(255,138,30,.22),rgba(183,110,240,.2));border:1px solid rgba(255,138,30,.4);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:10px}
 .rand-btn:hover{box-shadow:0 8px 30px rgba(255,138,30,.25)}
 @keyframes spinBounce{0%{transform:scale(1);opacity:1}50%{transform:scale(.95);opacity:.65}100%{transform:scale(1);opacity:1}}
@@ -221,8 +244,8 @@ select option{background:var(--bg4)}
 .rand-result-avatar{width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:#07070a}
 .rand-result-role{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
 .rand-result-hero{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:.04em}
-.rand-result-skin{font-size:.95rem;color:var(--text-dim);margin-top:6px}
-.rand-result-variant{font-size:.78rem;color:var(--text-muted);margin-top:6px}
+.rand-result-cat{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:8px}
+.rand-result-skin{font-size:.95rem;color:var(--text-dim);margin-top:4px}
 .rand-empty{color:var(--text-muted);font-size:.85rem;text-align:center;padding:20px 0}
 
 /* SELECT MODE */
@@ -231,18 +254,10 @@ select option{background:var(--bg4)}
 .skin-card.selected{outline:2px solid var(--ow);outline-offset:2px;box-shadow:0 0 20px rgba(255,138,30,.25)}
 .skin-card.selected::after{content:'✓';position:absolute;top:8px;left:8px;width:22px;height:22px;background:var(--ow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#07070a;font-weight:700;z-index:20}
 
-/* VARIANTS (skin detail modal) */
-.variant-section{margin-top:6px}
-.variant-section .vtitle{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ow);font-weight:700;margin-bottom:10px}
-.variant-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:6px 8px 6px 12px;font-size:.8rem;margin:0 7px 7px 0}
-.variant-chip.owned{border-color:rgba(255,138,30,.5)}
-.vdot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);cursor:pointer}
-.variant-chip.owned .vdot{background:var(--ow)}
-.vname{cursor:pointer}
-.vdel{cursor:pointer;color:var(--text-muted);font-size:.78rem;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.vdel:hover{color:#ff8a8a;background:rgba(220,50,50,.15)}
-.variant-add-row{display:flex;gap:8px;margin-top:8px}
-.variant-add-row input{flex:1}
+/* MANAGE HEROES PAGE */
+.role-group-label{display:flex;align-items:center;gap:10px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.08em;font-size:1.05rem;margin:26px 0 14px}
+.role-group-label:first-child{margin-top:0}
+.role-group-dot{width:9px;height:9px;border-radius:50%}
 
 @media (max-width:760px){
   #sidebar{position:relative;width:100%;min-height:auto;flex-direction:row;flex-wrap:wrap;padding:10px}
@@ -269,6 +284,7 @@ select option{background:var(--bg4)}
     <div class="sidebar-section">Outils</div>
     <nav class="sidebar-nav">
       <div class="nav-item" data-page="random" onclick="navigate('random')"><div class="nav-dot"></div>🎲 Randomizer</div>
+      <div class="nav-item" data-page="manage" onclick="navigate('manage')"><div class="nav-dot"></div>🛠 Gérer les héros</div>
     </nav>
     <div class="sidebar-bottom">
       <button class="btn btn-ghost btn-sm" onclick="exportData()">⬇ Exporter</button>
@@ -294,9 +310,9 @@ select option{background:var(--bg4)}
 "use strict";
 
 /* ═══════════════════════════════════════════════════════
-   HERO ROSTER
+   DEFAULT HERO ROSTER (seed data — editable afterwards)
    ═══════════════════════════════════════════════════════ */
-const HEROES = [
+const DEFAULT_HEROES = [
   {id:'dmon', name:'D.Mon', role:'tank'},{id:'dva', name:'D.Va', role:'tank'},
   {id:'domina', name:'Domina', role:'tank'},{id:'doomfist', name:'Doomfist', role:'tank'},
   {id:'hazard', name:'Hazard', role:'tank'},{id:'junkerqueen', name:'Junker Queen', role:'tank'},
@@ -325,7 +341,6 @@ const HEROES = [
   {id:'mizuki', name:'Mizuki', role:'support'},{id:'moira', name:'Moira', role:'support'},
   {id:'wuyang', name:'Wuyang', role:'support'},{id:'zenyatta', name:'Zenyatta', role:'support'},
 ];
-const HEROMAP = {}; HEROES.forEach(h=>HEROMAP[h.id]=h);
 const ROLE_INFO = {
   tank:{label:'Tank', hex:'#4a9eff', icon:'🛡️'},
   damage:{label:'Dégâts', hex:'#f2544f', icon:'⚔️'},
@@ -334,25 +349,55 @@ const ROLE_INFO = {
 const RARITIES = ['Common','Rare','Epic','Legendary','Mythic'];
 const RARITY_LABEL = {Common:'Commun',Rare:'Rare',Epic:'Épique',Legendary:'Légendaire',Mythic:'Mythique'};
 const RARITY_HEX = {Common:'#9099a2',Rare:'#4fa8e8',Epic:'#b76ef0',Legendary:'#ffb93d',Mythic:'#ff5fa8'};
-function hasVariants(rarity){ return rarity==='Legendary' || rarity==='Mythic'; }
+
+const CATEGORIES = [
+  {id:'skin', label:'Skins', icon:'👕'},
+  {id:'highlight', label:'Entrée en scène', icon:'🎬'},
+  {id:'emote', label:'Emotes', icon:'💃'},
+  {id:'celebration', label:'Célébrations', icon:'🏆'},
+  {id:'charm', label:'Porte-bonheur', icon:'🔮'},
+  {id:'spray', label:'Souvenirs', icon:'🎨'},
+  {id:'voiceline', label:'Répliques', icon:'💬'},
+  {id:'tag', label:'Tags', icon:'🏷️'},
+  {id:'weapon', label:"Variantes d'arme", icon:'🔫'}
+];
+const CATMAP = {}; CATEGORIES.forEach(c=>CATMAP[c.id]=c);
 
 /* ═══════════════════════════════════════════════════════
-   DATA
+   DATA (heroes + items, with migration from older versions)
    ═══════════════════════════════════════════════════════ */
 const DB_KEY = 'owvault_data';
-const DEFAULT_DATA = { skins: [] };
+function clone(x){ return JSON.parse(JSON.stringify(x)); }
+
 function loadData(){
+  let db;
   try{
     const raw = localStorage.getItem(DB_KEY);
-    if(!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
-    const saved = JSON.parse(raw);
-    if(!saved.skins) saved.skins=[];
-    saved.skins.forEach(s=>{ if(!s.variants) s.variants=[]; });
-    return saved;
-  }catch(e){ return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+    db = raw ? JSON.parse(raw) : null;
+  }catch(e){ db = null; }
+  if(!db) db = {};
+  if(!Array.isArray(db.heroes)) db.heroes = clone(DEFAULT_HEROES);
+  if(!Array.isArray(db.items)){
+    if(Array.isArray(db.skins)){
+      // migrate legacy single-category "skins" collection
+      db.items = db.skins.map(s=>({
+        id: s.id, heroId: s.heroId, category:'skin', name: s.name,
+        rarity: s.rarity || 'Common', notes: s.notes||'', order: s.order||0
+      }));
+    } else {
+      db.items = [];
+    }
+  }
+  delete db.skins;
+  return db;
 }
 function saveData(d){ localStorage.setItem(DB_KEY, JSON.stringify(d)); }
 function generateId(p){ return p+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
+
+function getHero(db, heroId){ return db.heroes.find(h=>h.id===heroId); }
+function heroesByRole(db, role){ return db.heroes.filter(h=>h.role===role); }
+function itemsForHero(db, heroId){ return db.items.filter(i=>i.heroId===heroId); }
+function itemsForHeroCat(db, heroId, cat){ return db.items.filter(i=>i.heroId===heroId && i.category===cat); }
 
 function exportData(){
   const d = loadData();
@@ -368,8 +413,8 @@ function importDataFile(file){
     r.onload = e=>{
       try{
         const raw = JSON.parse(e.target.result);
-        if(!raw || !Array.isArray(raw.skins)) throw new Error('Format non reconnu (attendu : export OW Vault)');
-        saveData(raw); res(raw);
+        if(!raw || (!Array.isArray(raw.items) && !Array.isArray(raw.skins))) throw new Error('Format non reconnu (attendu : export OW Vault)');
+        saveData(raw); res(loadData());
       }catch(err){ rej(err instanceof Error ? err : new Error('JSON invalide')); }
     };
     r.readAsText(file);
@@ -377,7 +422,7 @@ function importDataFile(file){
 }
 async function handleImport(e){
   const f = e.target.files[0]; if(!f) return;
-  try{ const d = await importDataFile(f); showToast(`Import réussi ✓ (${d.skins.length} skins)`); refresh(); }
+  try{ const d = await importDataFile(f); showToast(`Import réussi ✓ (${d.items.length} objets, ${d.heroes.length} héros)`); refresh(); }
   catch(err){ showToast('Erreur : '+err.message,'error'); }
   e.target.value='';
 }
@@ -390,21 +435,27 @@ let currentHeroId = null;
 
 function navigate(page){
   currentPage = page; currentHeroId = null;
-  _exitSelectMode(true);
+  _exitSelectMode();
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.page===page));
   const c = document.getElementById('page-content');
   if(page==='home') c.innerHTML = renderHome();
   else if(page==='tank'||page==='damage'||page==='support') c.innerHTML = renderRolePage(page);
   else if(page==='random') c.innerHTML = renderRandomPage();
+  else if(page==='manage') c.innerHTML = renderManagePage();
   else c.innerHTML = '<p>404</p>';
 }
-function openHeroPage(heroId){
+function openHeroPage(heroId, resetCategory){
+  if(resetCategory === undefined) resetCategory = true;
   currentHeroId = heroId;
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.page===HEROMAP[heroId].role));
+  const db = loadData();
+  const hero = getHero(db, heroId);
+  if(!hero){ navigate('home'); return; }
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.page===hero.role));
+  if(resetCategory) _activeCategory = 'skin';
   document.getElementById('page-content').innerHTML = renderHeroPage(heroId);
 }
 function refresh(){
-  if(currentHeroId) openHeroPage(currentHeroId);
+  if(currentHeroId) openHeroPage(currentHeroId, false);
   else navigate(currentPage);
 }
 
@@ -436,8 +487,8 @@ function openHelpModal(){
     </div>`);
 }
 function resetAllData(){
-  if(!confirm('Cette action supprimera définitivement toute ta collection. Continuer ?')) return;
-  saveData({skins:[]});
+  if(!confirm('Cette action supprimera définitivement toute ta collection ET les héros personnalisés. Continuer ?')) return;
+  saveData({heroes:clone(DEFAULT_HEROES), items:[]});
   closeModal(); showToast('Collection réinitialisée ✓'); navigate('home');
 }
 
@@ -452,7 +503,7 @@ function showToast(msg,type='success'){
 /* Utils */
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function initials(name){ return name.replace(/[^A-Za-zÀ-ÿ0-9 .:]/g,'').split(/[\s.:]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
-function heroGradient(role){ const c=ROLE_INFO[role].hex; return `linear-gradient(135deg, ${c}, ${shade(c,-18)})`; }
+function heroGradient(role){ const c=(ROLE_INFO[role]||ROLE_INFO.tank).hex; return `linear-gradient(135deg, ${c}, ${shade(c,-18)})`; }
 function shade(hex,pct){
   const n=parseInt(hex.slice(1),16);
   let r=(n>>16)+Math.round(255*pct/100), g=((n>>8)&255)+Math.round(255*pct/100), b=(n&255)+Math.round(255*pct/100);
@@ -460,49 +511,53 @@ function shade(hex,pct){
   return '#'+(r<<16|g<<8|b).toString(16).padStart(6,'0');
 }
 function idTimestamp(id){ const parts=String(id).split('_'); const ts=parseInt(parts[1]); return isNaN(ts)?0:ts; }
-function skinsForHero(heroId){ return loadData().skins.filter(s=>s.heroId===heroId); }
-function ownedSkinCount(heroId){ return skinsForHero(heroId).length; }
 
 /* ═══════════════════════════════════════════════════════
    HOME
    ═══════════════════════════════════════════════════════ */
 function renderHome(){
   const db = loadData();
-  const total = db.skins.length;
-  const heroesWithSkins = new Set(db.skins.map(s=>s.heroId)).size;
-  const variantsOwned = db.skins.reduce((a,s)=>a+(s.variants||[]).filter(v=>v.owned).length,0);
+  const total = db.items.length;
+  const heroesWithItems = new Set(db.items.map(i=>i.heroId)).size;
+  const customHeroes = db.heroes.filter(h=>h.custom).length;
   return `
     <div class="page-header ow-page"><div><div class="page-title ow-accent">MA COLLECTION</div><div style="color:var(--text-muted);font-size:.8rem;margin-top:4px;letter-spacing:.1em">OW VAULT · BLOODY</div></div></div>
     <div class="home-stats">
-      <div class="stat-block"><div class="stat-number">${total}</div><div class="stat-label">Skins possédés</div></div>
-      <div class="stat-block"><div class="stat-number">${heroesWithSkins}<span style="font-size:1.1rem;color:var(--text-muted)">/${HEROES.length}</span></div><div class="stat-label">Héros avec skins</div></div>
-      <div class="stat-block"><div class="stat-number">${variantsOwned}</div><div class="stat-label">Variantes possédées</div></div>
+      <div class="stat-block"><div class="stat-number">${total}</div><div class="stat-label">Objets possédés</div></div>
+      <div class="stat-block"><div class="stat-number">${heroesWithItems}<span style="font-size:1.1rem;color:var(--text-muted)">/${db.heroes.length}</span></div><div class="stat-label">Héros avec collection</div></div>
+      <div class="stat-block"><div class="stat-number">${customHeroes}</div><div class="stat-label">Héros personnalisés</div></div>
     </div>
     <div class="rarity-overview">
       <div class="lbl">Répartition par rareté</div>
-      <div class="rarity-track">${RARITIES.map(r=>{ const c=db.skins.filter(s=>s.rarity===r).length; const pct=total?(c/total*100):0; if(pct===0) return ''; const bg = r==='Mythic' ? 'linear-gradient(90deg,var(--mythic-a),var(--mythic-b))' : RARITY_HEX[r]; return `<span style="width:${pct}%;background:${bg}"></span>`; }).join('')}</div>
-      <div class="rarity-track-legend">${RARITIES.map(r=>{ const c=db.skins.filter(s=>s.rarity===r).length; const sw = r==='Mythic' ? 'background:linear-gradient(135deg,var(--mythic-a),var(--mythic-b))' : `background:${RARITY_HEX[r]}`; return `<span class="li"><span class="sw" style="${sw}"></span>${RARITY_LABEL[r]} · ${c}</span>`; }).join('')}</div>
+      <div class="rarity-track">${RARITIES.map(r=>{ const c=db.items.filter(i=>i.rarity===r).length; const pct=total?(c/total*100):0; if(pct===0) return ''; const bg = r==='Mythic' ? 'linear-gradient(90deg,var(--mythic-a),var(--mythic-b))' : RARITY_HEX[r]; return `<span style="width:${pct}%;background:${bg}"></span>`; }).join('')}</div>
+      <div class="rarity-track-legend">${RARITIES.map(r=>{ const c=db.items.filter(i=>i.rarity===r).length; const sw = r==='Mythic' ? 'background:linear-gradient(135deg,var(--mythic-a),var(--mythic-b))' : `background:${RARITY_HEX[r]}`; return `<span class="li"><span class="sw" style="${sw}"></span>${RARITY_LABEL[r]} · ${c}</span>`; }).join('')}</div>
+    </div>
+    <div class="cat-overview">
+      ${CATEGORIES.map(c=>{ const n=db.items.filter(i=>i.category===c.id).length; return `<span class="cat-chip">${c.icon} ${c.label} · <b>${n}</b></span>`; }).join('')}
     </div>
     <div class="home-grid">
-      <div class="game-card tank" onclick="navigate('tank')"><div class="game-card-icon">🛡️</div><div class="game-card-name">Tank</div><div class="game-card-count">${HEROES.filter(h=>h.role==='tank').length} héros</div></div>
-      <div class="game-card damage" onclick="navigate('damage')"><div class="game-card-icon">⚔️</div><div class="game-card-name">Dégâts</div><div class="game-card-count">${HEROES.filter(h=>h.role==='damage').length} héros</div></div>
-      <div class="game-card support" onclick="navigate('support')"><div class="game-card-icon">✚</div><div class="game-card-name">Soutien</div><div class="game-card-count">${HEROES.filter(h=>h.role==='support').length} héros</div></div>
+      <div class="game-card tank" onclick="navigate('tank')"><div class="game-card-icon">🛡️</div><div class="game-card-name">Tank</div><div class="game-card-count">${heroesByRole(db,'tank').length} héros</div></div>
+      <div class="game-card damage" onclick="navigate('damage')"><div class="game-card-icon">⚔️</div><div class="game-card-name">Dégâts</div><div class="game-card-count">${heroesByRole(db,'damage').length} héros</div></div>
+      <div class="game-card support" onclick="navigate('support')"><div class="game-card-icon">✚</div><div class="game-card-name">Soutien</div><div class="game-card-count">${heroesByRole(db,'support').length} héros</div></div>
       <div class="game-card rand" onclick="navigate('random')"><div class="game-card-icon">🎲</div><div class="game-card-name">Randomizer</div><div class="game-card-count">Choix aléatoire</div></div>
+      <div class="game-card manage" onclick="navigate('manage')"><div class="game-card-icon">🛠</div><div class="game-card-name">Gérer les héros</div><div class="game-card-count">Ajouter / modifier</div></div>
     </div>
     ${renderRecentList(db)}`;
 }
 function renderRecentList(db){
-  const recent = [...db.skins].sort((a,b)=>idTimestamp(b.id)-idTimestamp(a.id)).slice(0,8);
+  const recent = [...db.items].sort((a,b)=>idTimestamp(b.id)-idTimestamp(a.id)).slice(0,8);
   if(recent.length===0) return '';
   return `
     <div style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.06em;font-size:.95rem;color:var(--text-dim);margin-bottom:12px">🕘 AJOUTÉS RÉCEMMENT</div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      ${recent.map(s=>{
-        const hero = HEROMAP[s.heroId];
-        return `<div style="display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;cursor:pointer" onclick="openHeroPage('${esc(s.heroId)}')">
-          <span class="skin-rarity-label ${esc(s.rarity)}" style="min-width:70px">${RARITY_LABEL[s.rarity]}</span>
-          <span style="font-weight:600;font-size:.85rem;flex:1">${esc(s.name)}</span>
-          <span style="color:var(--text-muted);font-size:.78rem">${esc(hero.name)}</span>
+      ${recent.map(i=>{
+        const hero = getHero(db,i.heroId);
+        const cat = CATMAP[i.category] || CATMAP.skin;
+        return `<div style="display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;cursor:pointer" onclick="openHeroPage('${esc(i.heroId)}')">
+          <span class="skin-rarity-label ${esc(i.rarity)}" style="min-width:70px">${RARITY_LABEL[i.rarity]}</span>
+          <span style="font-weight:600;font-size:.85rem;flex:1">${esc(i.name)}</span>
+          <span style="color:var(--text-muted);font-size:.72rem">${cat.icon} ${cat.label}</span>
+          <span style="color:var(--text-muted);font-size:.78rem">${hero?esc(hero.name):'?'}</span>
         </div>`;
       }).join('')}
     </div>`;
@@ -512,31 +567,34 @@ function renderRecentList(db){
    ROLE PAGE (hero grid)
    ═══════════════════════════════════════════════════════ */
 function renderRolePage(role){
+  const db = loadData();
   const info = ROLE_INFO[role];
-  const heroes = HEROES.filter(h=>h.role===role);
+  const heroes = heroesByRole(db, role);
   return `
     <div class="page-header ${role}-page"><div class="page-title ${role}-accent">${info.icon} ${info.label.toUpperCase()}</div><span class="count-badge">${heroes.length} héros</span></div>
     <div class="hero-grid">
-      ${heroes.map(h=>{
-        const count = ownedSkinCount(h.id);
-        return `<div class="hero-card" onclick="openHeroPage('${esc(h.id)}')">
+      ${heroes.length===0 ? `<div class="empty-state"><div class="icon">🕳️</div><p>Aucun héros dans ce rôle.<br>Ajoute-en depuis <strong>🛠 Gérer les héros</strong>.</p></div>` : heroes.map(h=>{
+        const count = itemsForHero(db,h.id).length;
+        return `<div class="hero-card ${h.custom?'custom':''}" onclick="openHeroPage('${esc(h.id)}')">
           <div class="hero-avatar" style="background:${heroGradient(h.role)}">${initials(h.name)}</div>
           <div class="hname">${esc(h.name)}</div>
-          <div class="hcount"><b>${count}</b> skin${count!==1?'s':''}</div>
+          <div class="hcount"><b>${count}</b> objet${count!==1?'s':''}</div>
         </div>`;
       }).join('')}
     </div>`;
 }
 
 /* ═══════════════════════════════════════════════════════
-   HERO DETAIL PAGE
+   HERO DETAIL PAGE (tabbed by category)
    ═══════════════════════════════════════════════════════ */
+let _activeCategory = 'skin';
 let _heroSearch = '';
 let _heroRarityFilter = 'all';
 let _heroSort = 'recent';
 
 function renderHeroPage(heroId){
-  const hero = HEROMAP[heroId];
+  const db = loadData();
+  const hero = getHero(db, heroId);
   const info = ROLE_INFO[hero.role];
   _heroSearch=''; _heroRarityFilter='all'; _heroSort='recent';
   return `
@@ -549,12 +607,18 @@ function renderHeroPage(heroId){
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-ghost btn-sm" onclick="heroRandomize('${esc(heroId)}')">🎲 Random</button>
         <button class="btn btn-ghost btn-sm" onclick="toggleSelectMode()">☑ Sélectionner</button>
-        <button class="btn btn-primary btn-sm" onclick="openSkinModal(null,'${esc(heroId)}')">➕ Ajouter un skin</button>
+        <button class="btn btn-primary btn-sm" onclick="openItemModal(null,'${esc(heroId)}','${_activeCategory}')">➕ Ajouter</button>
       </div>
+    </div>
+    <div class="tabs" id="cat-tabs">
+      ${CATEGORIES.map(c=>{
+        const n = itemsForHeroCat(db,heroId,c.id).length;
+        return `<button class="tab ${c.id===_activeCategory?'active':''}" data-cat="${c.id}" onclick="heroSetCategory(this,'${c.id}')">${c.icon} ${c.label}<span class="tcount">${n}</span></button>`;
+      }).join('')}
     </div>
     <div id="select-bar-container"></div>
     <div class="search-bar">
-      <div class="search-input-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Rechercher un skin…" id="hero-search" oninput="heroFilter()"></div>
+      <div class="search-input-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Rechercher…" id="hero-search" oninput="heroFilter()"></div>
       <select id="hero-sort" onchange="heroSortChange()" style="max-width:190px">
         <option value="recent">Plus récents</option>
         <option value="az">Alphabétique (A→Z)</option>
@@ -566,11 +630,23 @@ function renderHeroPage(heroId){
       <button class="filter-btn active" data-rarity="all" onclick="heroRarFilter(this,'all')">Toutes</button>
       ${RARITIES.map(r=>`<button class="filter-btn" data-rarity="${r}" onclick="heroRarFilter(this,'${r}')">${RARITY_LABEL[r]}</button>`).join('')}
     </div>
-    <div class="skins-grid" id="hero-grid">${renderHeroSkinGrid(heroId)}</div>`;
+    <div class="skins-grid" id="hero-grid">${renderHeroItemGrid(heroId)}</div>`;
 }
 
-function getHeroSkinsSorted(heroId){
-  let list = skinsForHero(heroId);
+function heroSetCategory(btn, cat){
+  _activeCategory = cat; _heroSearch=''; _heroRarityFilter='all';
+  const s = document.getElementById('hero-search'); if(s) s.value='';
+  document.querySelectorAll('#cat-tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#hero-rarity-filter .filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('#hero-rarity-filter .filter-btn[data-rarity="all"]').classList.add('active');
+  document.getElementById('hero-grid').innerHTML = renderHeroItemGrid(currentHeroId);
+  _exitSelectMode();
+}
+
+function getHeroItemsSorted(heroId){
+  const db = loadData();
+  let list = itemsForHeroCat(db, heroId, _activeCategory);
   const rarityOrder = {Common:0,Rare:1,Epic:2,Legendary:3,Mythic:4};
   if(_heroSort==='az') list.sort((a,b)=>a.name.localeCompare(b.name,'fr'));
   else if(_heroSort==='recent') list.sort((a,b)=>idTimestamp(b.id)-idTimestamp(a.id));
@@ -579,33 +655,32 @@ function getHeroSkinsSorted(heroId){
   return list;
 }
 
-function renderHeroSkinGrid(heroId){
-  const list = getHeroSkinsSorted(heroId);
-  if(list.length===0) return `<div class="empty-state"><div class="icon">🦾</div><p>Aucun skin pour l'instant.<br>Ajoute-en avec <strong>➕ Ajouter un skin</strong>.</p></div>`;
-  return list.map((s,idx)=>{
-    const variants = s.variants||[];
-    const ownedV = variants.filter(v=>v.owned).length;
+function renderHeroItemGrid(heroId){
+  const list = getHeroItemsSorted(heroId);
+  const cat = CATMAP[_activeCategory];
+  if(list.length===0) return `<div class="empty-state"><div class="icon">${cat.icon}</div><p>Aucun objet dans « ${cat.label} » pour l'instant.<br>Ajoute-en avec <strong>➕ Ajouter</strong>.</p></div>`;
+  return list.map((it,idx)=>{
     return `
-    <div class="skin-card" data-rarity="${esc(s.rarity)}" data-name="${esc(s.name.toLowerCase())}" data-id="${esc(s.id)}" onclick="skinCardClick(event,'${esc(s.id)}','${esc(heroId)}')">
-      <div class="rarity-bar ${esc(s.rarity)}"></div>
+    <div class="skin-card" data-rarity="${esc(it.rarity)}" data-name="${esc(it.name.toLowerCase())}" data-id="${esc(it.id)}" onclick="itemCardClick(event,'${esc(it.id)}','${esc(heroId)}')">
+      <div class="rarity-bar ${esc(it.rarity)}"></div>
       <div class="skin-info">
-        <div class="skin-name">${esc(s.name)}</div>
-        <div class="skin-meta"><span class="skin-rarity-label ${esc(s.rarity)}">${RARITY_LABEL[s.rarity]}</span>${_heroSort==='manual' ? `<span style="display:flex;gap:3px" onclick="event.stopPropagation()"><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveSkin('${esc(s.id)}','${esc(heroId)}',-1)" ${idx===0?'disabled':''}>▲</button><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveSkin('${esc(s.id)}','${esc(heroId)}',1)" ${idx===list.length-1?'disabled':''}>▼</button></span>` : ''}</div>
-        ${hasVariants(s.rarity) ? `<div class="skin-variant-tag">🎨 ${ownedV}/${variants.length} variante${variants.length!==1?'s':''}</div>` : ''}
-        ${s.notes ? `<div class="skin-note" title="${esc(s.notes)}">📝 ${esc(s.notes)}</div>` : ''}
+        <div class="skin-name">${esc(it.name)}</div>
+        <div class="skin-meta"><span class="skin-rarity-label ${esc(it.rarity)}">${RARITY_LABEL[it.rarity]}</span>${_heroSort==='manual' ? `<span style="display:flex;gap:3px" onclick="event.stopPropagation()"><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',-1)" ${idx===0?'disabled':''}>▲</button><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',1)" ${idx===list.length-1?'disabled':''}>▼</button></span>` : ''}</div>
+        ${it.notes ? `<div class="skin-note" title="${esc(it.notes)}">📝 ${esc(it.notes)}</div>` : ''}
       </div>
       <div class="card-actions" onclick="event.stopPropagation()">
-        <button class="card-btn card-btn-edit" onclick="openSkinModal('${esc(s.id)}','${esc(heroId)}')">✏</button>
-        <button class="card-btn card-btn-delete" onclick="deleteSkin('${esc(s.id)}','${esc(heroId)}')">🗑</button>
+        <button class="card-btn card-btn-edit" onclick="openItemModal('${esc(it.id)}','${esc(heroId)}','${esc(it.category)}')">✏</button>
+        <button class="card-btn card-btn-delete" onclick="deleteItem('${esc(it.id)}','${esc(heroId)}')">🗑</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function skinCardClick(e, skinId, heroId){
-  const card = e.currentTarget;
-  if(_selectMode){ e.stopPropagation(); toggleSelectCard(card, skinId); return; }
-  openSkinDetailModal(skinId, heroId);
+function itemCardClick(e, itemId, heroId){
+  if(_selectMode){ e.stopPropagation(); toggleSelectCard(e.currentTarget, itemId); return; }
+  const db = loadData();
+  const it = db.items.find(x=>x.id===itemId);
+  if(it) openItemModal(it.id, heroId, it.category);
 }
 function heroFilter(){
   _heroSearch = document.getElementById('hero-search').value.toLowerCase();
@@ -626,30 +701,27 @@ function applyHeroFilters(){
 }
 function heroSortChange(){
   _heroSort = document.getElementById('hero-sort').value;
-  document.getElementById('hero-grid').innerHTML = renderHeroSkinGrid(currentHeroId);
+  document.getElementById('hero-grid').innerHTML = renderHeroItemGrid(currentHeroId);
   applyHeroFilters();
 }
-function moveSkin(skinId, heroId, dir){
-  const list = getHeroSkinsSorted(heroId);
-  const i = list.findIndex(s=>s.id===skinId);
+function moveItem(itemId, heroId, dir){
+  const list = getHeroItemsSorted(heroId);
+  const i = list.findIndex(s=>s.id===itemId);
   const j = i+dir;
   if(j<0||j>=list.length) return;
   const db = loadData();
-  const a = db.skins.find(s=>s.id===list[i].id), b = db.skins.find(s=>s.id===list[j].id);
+  const a = db.items.find(s=>s.id===list[i].id), b = db.items.find(s=>s.id===list[j].id);
   const tmp = a.order||0; a.order=b.order||0; b.order=tmp;
   saveData(db);
-  document.getElementById('hero-grid').innerHTML = renderHeroSkinGrid(heroId);
+  document.getElementById('hero-grid').innerHTML = renderHeroItemGrid(heroId);
 }
 function heroRandomize(heroId){
-  const list = skinsForHero(heroId);
-  if(list.length===0){ showToast('Aucun skin possédé pour ce héros.','error'); return; }
+  const db = loadData();
+  const list = itemsForHero(db, heroId);
+  if(list.length===0){ showToast('Aucun objet possédé pour ce héros.','error'); return; }
   const pick = list[Math.floor(Math.random()*list.length)];
-  let extra = '';
-  if(hasVariants(pick.rarity)){
-    const owned = (pick.variants||[]).filter(v=>v.owned);
-    if(owned.length>0) extra = ' — variante : ' + owned[Math.floor(Math.random()*owned.length)].name;
-  }
-  showToast(`🎲 ${pick.name}${extra}`);
+  const cat = CATMAP[pick.category] || CATMAP.skin;
+  showToast(`🎲 ${cat.icon} ${pick.name} (${cat.label})`);
 }
 
 /* SELECT MODE */
@@ -660,7 +732,7 @@ function toggleSelectMode(){
   renderSelectBar();
   document.querySelectorAll('#hero-grid .skin-card').forEach(c=>{ c.classList.toggle('selectable',_selectMode); c.classList.remove('selected'); });
 }
-function _exitSelectMode(silent){
+function _exitSelectMode(){
   _selectMode = false; _selected.clear();
   const bar = document.getElementById('select-bar-container'); if(bar) bar.innerHTML='';
 }
@@ -672,48 +744,57 @@ function renderSelectBar(){
     <button class="btn btn-sm btn-danger" onclick="bulkDeleteSelected()">Supprimer la sélection</button>
     <button class="btn btn-sm btn-ghost" onclick="toggleSelectMode()">Annuler</button></div>`;
 }
-function toggleSelectCard(card, skinId){
-  if(_selected.has(skinId)){ _selected.delete(skinId); card.classList.remove('selected'); }
-  else { _selected.add(skinId); card.classList.add('selected'); }
+function toggleSelectCard(card, itemId){
+  if(_selected.has(itemId)){ _selected.delete(itemId); card.classList.remove('selected'); }
+  else { _selected.add(itemId); card.classList.add('selected'); }
   renderSelectBar();
 }
 function bulkDeleteSelected(){
   if(_selected.size===0) return;
-  if(!confirm(`Supprimer ${_selected.size} skin(s) sélectionné(s) ?`)) return;
+  if(!confirm(`Supprimer ${_selected.size} objet(s) sélectionné(s) ?`)) return;
   const db = loadData();
-  db.skins = db.skins.filter(s=>!_selected.has(s.id));
+  db.items = db.items.filter(s=>!_selected.has(s.id));
   saveData(db);
   _selectMode=false; _selected.clear();
-  showToast('Skins supprimés ✓');
+  showToast('Objets supprimés ✓');
   refresh();
 }
 
 /* ═══════════════════════════════════════════════════════
-   SKIN CRUD (add/edit modal)
+   ITEM CRUD (add/edit modal)
    ═══════════════════════════════════════════════════════ */
 let _modalRarity = 'Common';
-function openSkinModal(skinId, heroId){
-  const editing = !!skinId;
+let _modalCategory = 'skin';
+function openItemModal(itemId, heroId, category){
+  const editing = !!itemId;
   const db = loadData();
-  const s = editing ? db.skins.find(x=>x.id===skinId) : null;
-  _modalRarity = s ? s.rarity : 'Common';
-  openModal(editing ? 'Modifier le skin' : 'Ajouter un skin', `
+  const it = editing ? db.items.find(x=>x.id===itemId) : null;
+  _modalRarity = it ? it.rarity : 'Common';
+  _modalCategory = it ? it.category : (category || 'skin');
+  openModal(editing ? 'Modifier l\u2019objet' : 'Ajouter un objet', `
     <div class="form-section">
       <div class="form-row single">
-        <div class="form-group"><label>Nom du skin</label><input type="text" id="f-skin-name" value="${s?esc(s.name):''}" placeholder="Ex : Oni, Cybernétique, Nano-Cola..."></div>
+        <div class="form-group"><label>Catégorie</label><div class="cat-select" id="f-cat-select">${CATEGORIES.map(c=>`<div class="cat-opt" data-cat="${c.id}" onclick="setModalCategory('${c.id}')">${c.icon} ${c.label}</div>`).join('')}</div></div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group"><label>Nom</label><input type="text" id="f-item-name" value="${it?esc(it.name):''}" placeholder="Ex : Oni, Victoire éclatante, Ohé !..."></div>
       </div>
       <div class="form-row single">
         <div class="form-group"><label>Rareté</label><div class="rarity-select" id="f-rarity-select">${RARITIES.map(r=>`<div class="rarity-opt" data-rarity="${r}" onclick="setModalRarity('${r}')">${RARITY_LABEL[r]}</div>`).join('')}</div></div>
       </div>
       <div class="form-row single">
-        <div class="form-group"><label>Notes (optionnel)</label><textarea id="f-skin-notes" placeholder="Ex : obtenu via caisse événement...">${s?esc(s.notes||''):''}</textarea></div>
+        <div class="form-group"><label>Notes (optionnel)</label><textarea id="f-item-notes" placeholder="Ex : obtenu via caisse événement...">${it?esc(it.notes||''):''}</textarea></div>
       </div>
     </div>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="saveSkinModal(${editing?`'${esc(skinId)}'`:'null'},'${esc(heroId)}')">Enregistrer</button>
+      <button class="btn btn-primary" onclick="saveItemModal(${editing?`'${esc(itemId)}'`:'null'},'${esc(heroId)}')">Enregistrer</button>
     </div>`);
-  setTimeout(()=>{ refreshRarityActive(); document.getElementById('f-skin-name').focus(); },30);
+  setTimeout(()=>{ refreshCatActive(); refreshRarityActive(); document.getElementById('f-item-name').focus(); },30);
+}
+function setModalCategory(c){ _modalCategory = c; refreshCatActive(); }
+function refreshCatActive(){
+  document.querySelectorAll('.cat-opt').forEach(el=>{ el.classList.toggle('active', el.dataset.cat===_modalCategory); });
 }
 function setModalRarity(r){ _modalRarity = r; refreshRarityActive(); }
 function refreshRarityActive(){
@@ -724,109 +805,132 @@ function refreshRarityActive(){
     else { el.classList.remove('active'); el.style.background='var(--bg4)'; }
   });
 }
-function saveSkinModal(skinId, heroId){
-  const name = document.getElementById('f-skin-name').value.trim();
-  const notes = document.getElementById('f-skin-notes').value.trim();
-  if(!name){ showToast('Le nom du skin est requis.','error'); return; }
+function saveItemModal(itemId, heroId){
+  const name = document.getElementById('f-item-name').value.trim();
+  const notes = document.getElementById('f-item-notes').value.trim();
+  if(!name){ showToast('Le nom est requis.','error'); return; }
   const db = loadData();
-  if(skinId){
-    const s = db.skins.find(x=>x.id===skinId);
-    s.name=name; s.notes=notes; s.rarity=_modalRarity;
-    if(!hasVariants(s.rarity)) s.variants=[];
-    if(!s.variants) s.variants=[];
+  if(itemId){
+    const it = db.items.find(x=>x.id===itemId);
+    it.name=name; it.notes=notes; it.rarity=_modalRarity; it.category=_modalCategory;
   }else{
-    const maxOrder = Math.max(0, ...db.skins.filter(x=>x.heroId===heroId).map(x=>x.order||0));
-    db.skins.push({ id:generateId('skin'), heroId, name, rarity:_modalRarity, notes, order:maxOrder+1, variants:[] });
+    const maxOrder = Math.max(0, ...db.items.filter(x=>x.heroId===heroId && x.category===_modalCategory).map(x=>x.order||0));
+    db.items.push({ id:generateId('item'), heroId, category:_modalCategory, name, rarity:_modalRarity, notes, order:maxOrder+1 });
   }
   saveData(db);
-  closeModal(); showToast('Skin enregistré ✓');
+  closeModal(); showToast('Objet enregistré ✓');
+  _activeCategory = _modalCategory;
   refresh();
 }
-function deleteSkin(skinId, heroId){
-  if(!confirm('Supprimer ce skin ?')) return;
+function deleteItem(itemId, heroId){
+  if(!confirm('Supprimer cet objet ?')) return;
   const db = loadData();
-  db.skins = db.skins.filter(s=>s.id!==skinId);
+  db.items = db.items.filter(s=>s.id!==itemId);
   saveData(db);
-  showToast('Skin supprimé ✓');
+  showToast('Objet supprimé ✓');
   refresh();
 }
 
-/* SKIN DETAIL MODAL (variants for Legendary/Mythic) */
-function openSkinDetailModal(skinId, heroId){
+/* ═══════════════════════════════════════════════════════
+   MANAGE HEROES (add / edit / delete)
+   ═══════════════════════════════════════════════════════ */
+function renderManagePage(){
   const db = loadData();
-  const s = db.skins.find(x=>x.id===skinId);
-  if(!s) return;
-  const rarityColor = s.rarity==='Mythic' ? 'linear-gradient(90deg,var(--mythic-a),var(--mythic-b))' : RARITY_HEX[s.rarity];
-  const variants = s.variants||[];
-  openModal(s.name, `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-      <span style="padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:${rarityColor};color:#07070a">${RARITY_LABEL[s.rarity]}</span>
-      <span style="padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;background:var(--bg3);color:var(--text-dim);border:1px solid var(--border)">${esc(HEROMAP[s.heroId].name)}</span>
+  return `
+    <div class="page-header ow-page">
+      <div class="page-title ow-accent">🛠 GÉRER LES HÉROS</div>
+      <button class="btn btn-primary btn-sm" onclick="openHeroModal(null)">➕ Ajouter un héros</button>
     </div>
-    ${s.notes?`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:18px;font-size:.85rem;color:var(--text-dim);white-space:pre-wrap">📝 ${esc(s.notes)}</div>`:''}
-    ${hasVariants(s.rarity) ? `
-      <div class="variant-section">
-        <div class="vtitle">🎨 Variantes (${variants.filter(v=>v.owned).length}/${variants.length})</div>
-        <div id="variant-chip-wrap">${variants.map(v=>variantChipHtml(s.id,v)).join('') || `<div style="font-size:.78rem;color:var(--text-muted);font-style:italic;margin-bottom:8px">Aucune variante enregistrée pour l'instant.</div>`}</div>
-        <div class="variant-add-row">
-          <input type="text" id="f-variant-name" placeholder="Nouvelle variante (ex : Rouge, Été...)">
-          <button class="btn btn-primary btn-sm" onclick="addVariant('${esc(s.id)}')">+ Ajouter</button>
-        </div>
-      </div>` : `<p style="color:var(--text-muted);font-size:.8rem">Les variantes ne s'appliquent qu'aux skins Légendaires et Mythiques.</p>`}
-    <div class="btn-row" style="justify-content:space-between">
-      <button class="btn btn-ghost btn-sm" onclick="closeModal();openSkinModal('${esc(s.id)}','${esc(s.heroId)}')">✏ Modifier le skin</button>
-      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+    <div id="manage-list">${renderManageList(db)}</div>`;
+}
+function renderManageList(db){
+  return ['tank','damage','support'].map(role=>{
+    const info = ROLE_INFO[role];
+    const heroes = heroesByRole(db, role);
+    return `
+      <div class="role-group-label"><span class="role-group-dot" style="background:${info.hex}"></span><span style="color:${info.hex}">${info.icon} ${info.label.toUpperCase()}</span><span class="count-badge">${heroes.length}</span></div>
+      <div class="hero-grid">
+        ${heroes.map(h=>{
+          const count = itemsForHero(db,h.id).length;
+          return `<div class="hero-card ${h.custom?'custom':''}" onclick="openHeroModal('${esc(h.id)}')">
+            <div class="hero-avatar" style="background:${heroGradient(h.role)}">${initials(h.name)}</div>
+            <div class="hname">${esc(h.name)}</div>
+            <div class="hcount"><b>${count}</b> objet${count!==1?'s':''}</div>
+            <div class="hero-manage-actions" onclick="event.stopPropagation()">
+              <button class="card-btn card-btn-edit" onclick="openHeroModal('${esc(h.id)}')">✏</button>
+              <button class="card-btn card-btn-delete" onclick="deleteHero('${esc(h.id)}')">🗑</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }).join('');
+}
+let _modalHeroRole = 'tank';
+function openHeroModal(heroId){
+  const editing = !!heroId;
+  const db = loadData();
+  const h = editing ? getHero(db, heroId) : null;
+  _modalHeroRole = h ? h.role : 'tank';
+  openModal(editing ? 'Modifier le héros' : 'Ajouter un héros', `
+    <div class="form-section">
+      <div class="form-row single">
+        <div class="form-group"><label>Nom du héros</label><input type="text" id="f-hero-name" value="${h?esc(h.name):''}" placeholder="Ex : Prochain héros..."></div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group"><label>Rôle</label><div class="cat-select" id="f-hero-role-select">
+          ${Object.keys(ROLE_INFO).map(r=>`<div class="cat-opt" data-role="${r}" onclick="setModalHeroRole('${r}')">${ROLE_INFO[r].icon} ${ROLE_INFO[r].label}</div>`).join('')}
+        </div></div>
+      </div>
+      ${editing ? `<p style="font-size:.72rem;color:var(--text-muted);margin-top:4px">La collection déjà enregistrée pour ce héros est conservée si tu changes son rôle.</p>` : ''}
     </div>
-  `);
-  const input = document.getElementById('f-variant-name');
-  if(input) input.addEventListener('keydown', e=>{ if(e.key==='Enter') addVariant(s.id); });
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveHeroModal(${editing?`'${esc(heroId)}'`:'null'})">Enregistrer</button>
+    </div>`);
+  setTimeout(()=>{
+    document.querySelectorAll('#f-hero-role-select .cat-opt').forEach(el=>{ el.classList.toggle('active', el.dataset.role===_modalHeroRole); });
+    document.getElementById('f-hero-name').focus();
+  },30);
 }
-function variantChipHtml(skinId, v){
-  return `<span class="variant-chip ${v.owned?'owned':''}" data-var="${esc(v.id)}">
-    <span class="vdot" onclick="toggleVariantOwned('${esc(skinId)}','${esc(v.id)}')"></span>
-    <span class="vname" onclick="toggleVariantOwned('${esc(skinId)}','${esc(v.id)}')">${esc(v.name)}</span>
-    <span class="vdel" onclick="deleteVariant('${esc(skinId)}','${esc(v.id)}')">✕</span>
-  </span>`;
+function setModalHeroRole(r){
+  _modalHeroRole = r;
+  document.querySelectorAll('#f-hero-role-select .cat-opt').forEach(el=>{ el.classList.toggle('active', el.dataset.role===r); });
 }
-function refreshVariantWrap(skinId){
+function saveHeroModal(heroId){
+  const name = document.getElementById('f-hero-name').value.trim();
+  if(!name){ showToast('Le nom du héros est requis.','error'); return; }
   const db = loadData();
-  const s = db.skins.find(x=>x.id===skinId);
-  const wrap = document.getElementById('variant-chip-wrap');
-  if(wrap) wrap.innerHTML = (s.variants||[]).map(v=>variantChipHtml(s.id,v)).join('') || `<div style="font-size:.78rem;color:var(--text-muted);font-style:italic;margin-bottom:8px">Aucune variante enregistrée pour l'instant.</div>`;
-  const titleEl = document.querySelector('.variant-section .vtitle');
-  if(titleEl) titleEl.textContent = `🎨 Variantes (${(s.variants||[]).filter(v=>v.owned).length}/${(s.variants||[]).length})`;
-}
-function addVariant(skinId){
-  const input = document.getElementById('f-variant-name');
-  const name = (input.value||'').trim();
-  if(!name) return;
-  const db = loadData();
-  const s = db.skins.find(x=>x.id===skinId);
-  if(!s.variants) s.variants=[];
-  s.variants.push({id:generateId('var'), name, owned:true});
+  if(heroId){
+    const h = getHero(db, heroId);
+    h.name = name; h.role = _modalHeroRole;
+  }else{
+    db.heroes.push({ id:generateId('hero'), name, role:_modalHeroRole, custom:true });
+  }
   saveData(db);
-  input.value='';
-  refreshVariantWrap(skinId);
+  closeModal(); showToast('Héros enregistré ✓');
+  if(currentPage==='manage') navigate('manage'); else refresh();
 }
-function toggleVariantOwned(skinId, varId){
+function deleteHero(heroId){
   const db = loadData();
-  const s = db.skins.find(x=>x.id===skinId);
-  const v = (s.variants||[]).find(v=>v.id===varId);
-  if(v){ v.owned=!v.owned; saveData(db); refreshVariantWrap(skinId); }
-}
-function deleteVariant(skinId, varId){
-  const db = loadData();
-  const s = db.skins.find(x=>x.id===skinId);
-  s.variants = (s.variants||[]).filter(v=>v.id!==varId);
-  saveData(db); refreshVariantWrap(skinId);
+  const h = getHero(db, heroId);
+  if(!h) return;
+  const count = itemsForHero(db, heroId).length;
+  const msg = count>0 ? `Supprimer « ${h.name} » supprimera aussi ${count} objet(s) de sa collection. Continuer ?` : `Supprimer « ${h.name} » ?`;
+  if(!confirm(msg)) return;
+  db.heroes = db.heroes.filter(x=>x.id!==heroId);
+  db.items = db.items.filter(x=>x.heroId!==heroId);
+  saveData(db);
+  showToast('Héros supprimé ✓');
+  navigate('manage');
 }
 
 /* ═══════════════════════════════════════════════════════
    RANDOMIZER PAGE
    ═══════════════════════════════════════════════════════ */
 let _randRole = 'all';
+let _randCat = 'all';
 function renderRandomPage(){
-  _randRole = 'all';
+  _randRole = 'all'; _randCat='all';
   return `
     <div class="page-header ow-page"><div class="page-title ow-accent">RANDOMIZER</div></div>
     <div class="rand-page">
@@ -840,7 +944,14 @@ function renderRandomPage(){
         </div>
       </div>
       <div class="rand-step">
-        <div class="rand-step-title"><span class="step-num">2</span>Tirer un héros + un skin possédés</div>
+        <div class="rand-step-title"><span class="step-num">2</span>Filtrer par catégorie</div>
+        <div class="role-filter-grid" id="rand-cat-filters">
+          <div class="cat-filter-pill active" data-cat="all" onclick="randSetCat(this,'all')">Toutes catégories</div>
+          ${CATEGORIES.map(c=>`<div class="cat-filter-pill" data-cat="${c.id}" onclick="randSetCat(this,'${c.id}')">${c.icon} ${c.label}</div>`).join('')}
+        </div>
+      </div>
+      <div class="rand-step">
+        <div class="rand-step-title"><span class="step-num">3</span>Tirer un héros + un objet possédés</div>
         <button class="btn rand-btn" id="rand-go-btn" onclick="runRandomizer()">🎲 Lancer le randomizer</button>
         <div id="rand-result"></div>
       </div>
@@ -851,36 +962,35 @@ function randSetRole(btn, role){
   btn.classList.add('active');
   _randRole = role;
 }
+function randSetCat(btn, cat){
+  document.querySelectorAll('#rand-cat-filters .cat-filter-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  _randCat = cat;
+}
 function runRandomizer(){
   const btn = document.getElementById('rand-go-btn');
   btn.classList.remove('spinning'); void btn.offsetWidth; btn.classList.add('spinning');
   const db = loadData();
-  let pool = HEROES.filter(h=> db.skins.some(s=>s.heroId===h.id));
-  if(_randRole!=='all') pool = pool.filter(h=>h.role===_randRole);
+  let items = db.items.slice();
+  if(_randCat!=='all') items = items.filter(i=>i.category===_randCat);
+  let pool = db.heroes.filter(h=> (_randRole==='all'||h.role===_randRole) && items.some(i=>i.heroId===h.id));
   const resultEl = document.getElementById('rand-result');
   if(pool.length===0){
-    resultEl.innerHTML = `<div class="rand-empty">Aucun skin possédé pour ce filtre. Ajoute des skins d'abord.</div>`;
+    resultEl.innerHTML = `<div class="rand-empty">Aucun objet possédé pour ce filtre. Ajoute des objets d'abord.</div>`;
     return;
   }
   const hero = pool[Math.floor(Math.random()*pool.length)];
-  const skins = db.skins.filter(s=>s.heroId===hero.id);
-  const skin = skins[Math.floor(Math.random()*skins.length)];
+  const heroItems = items.filter(i=>i.heroId===hero.id);
+  const item = heroItems[Math.floor(Math.random()*heroItems.length)];
   const info = ROLE_INFO[hero.role];
-  let variantLine = '';
-  if(hasVariants(skin.rarity)){
-    const owned = (skin.variants||[]).filter(v=>v.owned);
-    if(owned.length>0){
-      const v = owned[Math.floor(Math.random()*owned.length)];
-      variantLine = `<div class="rand-result-variant">Variante : <strong style="color:var(--text)">${esc(v.name)}</strong></div>`;
-    }
-  }
+  const cat = CATMAP[item.category] || CATMAP.skin;
   resultEl.innerHTML = `
-    <div class="rand-result-card" data-rarity="${esc(skin.rarity)}">
+    <div class="rand-result-card" data-rarity="${esc(item.rarity)}">
       <div class="rand-result-avatar" style="background:${heroGradient(hero.role)}">${initials(hero.name)}</div>
       <div class="rand-result-role" style="color:${info.hex}">${info.icon} ${info.label}</div>
       <div class="rand-result-hero">${esc(hero.name)}</div>
-      <div class="rand-result-skin" style="color:${skin.rarity==='Mythic'?'var(--mythic-a)':RARITY_HEX[skin.rarity]}">${esc(skin.name)} · ${RARITY_LABEL[skin.rarity]}</div>
-      ${variantLine}
+      <div class="rand-result-cat">${cat.icon} ${cat.label}</div>
+      <div class="rand-result-skin" style="color:${item.rarity==='Mythic'?'var(--mythic-a)':RARITY_HEX[item.rarity]}">${esc(item.name)} · ${RARITY_LABEL[item.rarity]}</div>
     </div>`;
 }
 
