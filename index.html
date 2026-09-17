@@ -102,7 +102,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
 .hero-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 14px;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;text-align:center;position:relative}
 .hero-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
-.hero-avatar{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:#07070a}
+.hero-avatar{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:#07070a;position:relative;overflow:hidden;flex-shrink:0}
+.hero-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
 .hero-card .hname{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;letter-spacing:.03em;margin-bottom:3px}
 .hero-card .hcount{font-size:.68rem;color:var(--text-muted)}
 .hero-card .hcount b{color:var(--ow)}
@@ -241,7 +242,15 @@ select option{background:var(--bg4)}
 .rand-result-card[data-rarity=Legendary]{border-color:rgba(255,185,61,.35);box-shadow:0 0 24px rgba(255,185,61,.1)}
 .rand-result-card[data-rarity=Epic]{border-color:rgba(183,110,240,.35);box-shadow:0 0 24px rgba(183,110,240,.1)}
 .rand-result-card[data-rarity=Rare]{border-color:rgba(79,168,232,.35);box-shadow:0 0 24px rgba(79,168,232,.1)}
-.rand-result-avatar{width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:#07070a}
+.rand-result-avatar{width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:#07070a;position:relative;overflow:hidden}
+.rand-result-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.skin-thumb{width:100%;height:120px;overflow:hidden;background:var(--bg4)}
+.skin-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.form-hint{font-size:.68rem;color:var(--text-muted);margin-top:-2px}
+.img-preview-row{display:flex;align-items:center;gap:10px}
+.img-preview-row input{flex:1}
+.img-preview-thumb{width:40px;height:40px;border-radius:8px;overflow:hidden;background:var(--bg4);flex-shrink:0;border:1px solid var(--border2)}
+.img-preview-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .rand-result-role{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
 .rand-result-hero{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:.04em}
 .rand-result-cat{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:8px}
@@ -504,6 +513,14 @@ function showToast(msg,type='success'){
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function initials(name){ return name.replace(/[^A-Za-zÀ-ÿ0-9 .:]/g,'').split(/[\s.:]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
 function heroGradient(role){ const c=(ROLE_INFO[role]||ROLE_INFO.tank).hex; return `linear-gradient(135deg, ${c}, ${shade(c,-18)})`; }
+function avatarInner(name, imageUrl){
+  return (imageUrl ? `<img src="${esc(imageUrl)}" alt="" onerror="this.style.display='none'">` : '') + initials(name);
+}
+function updateImgPreview(inputId, previewId){
+  const url = document.getElementById(inputId).value.trim();
+  const wrap = document.getElementById(previewId);
+  wrap.innerHTML = url ? `<img src="${esc(url)}" onerror="this.parentElement.innerHTML=''">` : '';
+}
 function shade(hex,pct){
   const n=parseInt(hex.slice(1),16);
   let r=(n>>16)+Math.round(255*pct/100), g=((n>>8)&255)+Math.round(255*pct/100), b=(n&255)+Math.round(255*pct/100);
@@ -576,7 +593,7 @@ function renderRolePage(role){
       ${heroes.length===0 ? `<div class="empty-state"><div class="icon">🕳️</div><p>Aucun héros dans ce rôle.<br>Ajoute-en depuis <strong>🛠 Gérer les héros</strong>.</p></div>` : heroes.map(h=>{
         const count = itemsForHero(db,h.id).length;
         return `<div class="hero-card ${h.custom?'custom':''}" onclick="openHeroPage('${esc(h.id)}')">
-          <div class="hero-avatar" style="background:${heroGradient(h.role)}">${initials(h.name)}</div>
+          <div class="hero-avatar" style="background:${heroGradient(h.role)}">${avatarInner(h.name,h.imageUrl)}</div>
           <div class="hname">${esc(h.name)}</div>
           <div class="hcount"><b>${count}</b> objet${count!==1?'s':''}</div>
         </div>`;
@@ -601,7 +618,7 @@ function renderHeroPage(heroId){
     <div class="backlink" onclick="navigate('${hero.role}')">← Retour · ${info.label}</div>
     <div class="page-header ${hero.role}-page">
       <div style="display:flex;align-items:center;gap:14px">
-        <div class="hero-avatar" style="width:52px;height:52px;font-size:1.1rem;background:${heroGradient(hero.role)}">${initials(hero.name)}</div>
+        <div class="hero-avatar" style="width:52px;height:52px;font-size:1.1rem;background:${heroGradient(hero.role)}">${avatarInner(hero.name,hero.imageUrl)}</div>
         <div><div class="page-title" style="font-size:1.7rem">${esc(hero.name)}</div><div style="color:${info.hex};font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:2px">${info.label}</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -663,6 +680,7 @@ function renderHeroItemGrid(heroId){
     return `
     <div class="skin-card" data-rarity="${esc(it.rarity)}" data-name="${esc(it.name.toLowerCase())}" data-id="${esc(it.id)}" onclick="itemCardClick(event,'${esc(it.id)}','${esc(heroId)}')">
       <div class="rarity-bar ${esc(it.rarity)}"></div>
+      ${it.imageUrl ? `<div class="skin-thumb"><img src="${esc(it.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'"></div>` : ''}
       <div class="skin-info">
         <div class="skin-name">${esc(it.name)}</div>
         <div class="skin-meta"><span class="skin-rarity-label ${esc(it.rarity)}">${RARITY_LABEL[it.rarity]}</span>${_heroSort==='manual' ? `<span style="display:flex;gap:3px" onclick="event.stopPropagation()"><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',-1)" ${idx===0?'disabled':''}>▲</button><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',1)" ${idx===list.length-1?'disabled':''}>▼</button></span>` : ''}</div>
@@ -785,6 +803,16 @@ function openItemModal(itemId, heroId, category){
       <div class="form-row single">
         <div class="form-group"><label>Notes (optionnel)</label><textarea id="f-item-notes" placeholder="Ex : obtenu via caisse événement...">${it?esc(it.notes||''):''}</textarea></div>
       </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Image (URL, optionnel)</label>
+          <div class="img-preview-row">
+            <input type="text" id="f-item-image" value="${it?esc(it.imageUrl||''):''}" placeholder="https://..." oninput="updateImgPreview('f-item-image','f-item-image-preview')">
+            <div class="img-preview-thumb" id="f-item-image-preview">${it&&it.imageUrl?`<img src="${esc(it.imageUrl)}" onerror="this.parentElement.innerHTML=''">`:''}</div>
+          </div>
+          <div class="form-hint">Colle un lien direct vers une image (se terminant par .png/.jpg/.webp...).</div>
+        </div>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
@@ -808,14 +836,15 @@ function refreshRarityActive(){
 function saveItemModal(itemId, heroId){
   const name = document.getElementById('f-item-name').value.trim();
   const notes = document.getElementById('f-item-notes').value.trim();
+  const imageUrl = document.getElementById('f-item-image').value.trim();
   if(!name){ showToast('Le nom est requis.','error'); return; }
   const db = loadData();
   if(itemId){
     const it = db.items.find(x=>x.id===itemId);
-    it.name=name; it.notes=notes; it.rarity=_modalRarity; it.category=_modalCategory;
+    it.name=name; it.notes=notes; it.rarity=_modalRarity; it.category=_modalCategory; it.imageUrl=imageUrl;
   }else{
     const maxOrder = Math.max(0, ...db.items.filter(x=>x.heroId===heroId && x.category===_modalCategory).map(x=>x.order||0));
-    db.items.push({ id:generateId('item'), heroId, category:_modalCategory, name, rarity:_modalRarity, notes, order:maxOrder+1 });
+    db.items.push({ id:generateId('item'), heroId, category:_modalCategory, name, rarity:_modalRarity, notes, imageUrl, order:maxOrder+1 });
   }
   saveData(db);
   closeModal(); showToast('Objet enregistré ✓');
@@ -853,7 +882,7 @@ function renderManageList(db){
         ${heroes.map(h=>{
           const count = itemsForHero(db,h.id).length;
           return `<div class="hero-card ${h.custom?'custom':''}" onclick="openHeroModal('${esc(h.id)}')">
-            <div class="hero-avatar" style="background:${heroGradient(h.role)}">${initials(h.name)}</div>
+            <div class="hero-avatar" style="background:${heroGradient(h.role)}">${avatarInner(h.name,h.imageUrl)}</div>
             <div class="hname">${esc(h.name)}</div>
             <div class="hcount"><b>${count}</b> objet${count!==1?'s':''}</div>
             <div class="hero-manage-actions" onclick="event.stopPropagation()">
@@ -881,6 +910,16 @@ function openHeroModal(heroId){
           ${Object.keys(ROLE_INFO).map(r=>`<div class="cat-opt" data-role="${r}" onclick="setModalHeroRole('${r}')">${ROLE_INFO[r].icon} ${ROLE_INFO[r].label}</div>`).join('')}
         </div></div>
       </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Image (URL, optionnel)</label>
+          <div class="img-preview-row">
+            <input type="text" id="f-hero-image" value="${h?esc(h.imageUrl||''):''}" placeholder="https://..." oninput="updateImgPreview('f-hero-image','f-hero-image-preview')">
+            <div class="img-preview-thumb" id="f-hero-image-preview">${h&&h.imageUrl?`<img src="${esc(h.imageUrl)}" onerror="this.parentElement.innerHTML=''">`:''}</div>
+          </div>
+          <div class="form-hint">Colle un lien direct vers une image (portrait du perso/skin, etc.).</div>
+        </div>
+      </div>
       ${editing ? `<p style="font-size:.72rem;color:var(--text-muted);margin-top:4px">La collection déjà enregistrée pour ce héros est conservée si tu changes son rôle.</p>` : ''}
     </div>
     <div class="btn-row">
@@ -898,13 +937,14 @@ function setModalHeroRole(r){
 }
 function saveHeroModal(heroId){
   const name = document.getElementById('f-hero-name').value.trim();
+  const imageUrl = document.getElementById('f-hero-image').value.trim();
   if(!name){ showToast('Le nom du héros est requis.','error'); return; }
   const db = loadData();
   if(heroId){
     const h = getHero(db, heroId);
-    h.name = name; h.role = _modalHeroRole;
+    h.name = name; h.role = _modalHeroRole; h.imageUrl = imageUrl;
   }else{
-    db.heroes.push({ id:generateId('hero'), name, role:_modalHeroRole, custom:true });
+    db.heroes.push({ id:generateId('hero'), name, role:_modalHeroRole, imageUrl, custom:true });
   }
   saveData(db);
   closeModal(); showToast('Héros enregistré ✓');
@@ -986,7 +1026,7 @@ function runRandomizer(){
   const cat = CATMAP[item.category] || CATMAP.skin;
   resultEl.innerHTML = `
     <div class="rand-result-card" data-rarity="${esc(item.rarity)}">
-      <div class="rand-result-avatar" style="background:${heroGradient(hero.role)}">${initials(hero.name)}</div>
+      <div class="rand-result-avatar" style="background:${heroGradient(hero.role)}">${avatarInner(hero.name,hero.imageUrl)}</div>
       <div class="rand-result-role" style="color:${info.hex}">${info.icon} ${info.label}</div>
       <div class="rand-result-hero">${esc(hero.name)}</div>
       <div class="rand-result-cat">${cat.icon} ${cat.label}</div>
