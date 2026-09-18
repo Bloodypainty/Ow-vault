@@ -66,29 +66,32 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .backlink:hover{color:var(--text)}
 
 /* GRID & CARDS (items) */
-.skins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.skins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .skin-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative}
 .skin-card:hover{transform:translateY(-5px);box-shadow:0 12px 34px rgba(0,0,0,.4)}
 .skin-card[data-rarity=Mythic]{border-color:rgba(255,95,168,.28)}
 .skin-card[data-rarity=Legendary]{border-color:rgba(255,185,61,.25)}
 .skin-card[data-rarity=Epic]{border-color:rgba(183,110,240,.25)}
 .skin-card[data-rarity=Rare]{border-color:rgba(79,168,232,.22)}
+.skin-card[data-rarity=Ultra]{border-color:rgba(255,45,45,.32)}
 .skin-card[data-rarity=Mythic]:hover{box-shadow:0 12px 40px rgba(255,95,168,.2),0 0 0 1px rgba(255,95,168,.4)}
 .skin-card[data-rarity=Legendary]:hover{box-shadow:0 12px 40px rgba(255,185,61,.2),0 0 0 1px rgba(255,185,61,.4)}
 .skin-card[data-rarity=Epic]:hover{box-shadow:0 12px 40px rgba(183,110,240,.2),0 0 0 1px rgba(183,110,240,.4)}
 .skin-card[data-rarity=Rare]:hover{box-shadow:0 12px 40px rgba(79,168,232,.2),0 0 0 1px rgba(79,168,232,.4)}
+.skin-card[data-rarity=Ultra]:hover{box-shadow:0 12px 40px rgba(255,45,45,.25),0 0 0 1px rgba(255,45,45,.45)}
 .rarity-bar{height:3px;width:100%}
 .rarity-bar.Mythic{background:linear-gradient(90deg,var(--mythic-a),var(--mythic-b))}
 .rarity-bar.Legendary{background:linear-gradient(90deg,var(--legendary),rgba(255,185,61,.2))}
 .rarity-bar.Epic{background:linear-gradient(90deg,var(--epic),rgba(183,110,240,.2))}
 .rarity-bar.Rare{background:linear-gradient(90deg,var(--rare),rgba(79,168,232,.2))}
+.rarity-bar.Ultra{background:linear-gradient(90deg,#ff2d2d,rgba(255,45,45,.2))}
 .rarity-bar.Common{background:var(--common);opacity:.4}
 .skin-info{padding:13px 14px 14px}
 .skin-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.98rem;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .skin-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:5px}
 .skin-rarity-label{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .skin-rarity-label.Mythic{background:linear-gradient(90deg,var(--mythic-a),var(--mythic-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.skin-rarity-label.Legendary{color:var(--legendary)}.skin-rarity-label.Epic{color:var(--epic)}.skin-rarity-label.Rare{color:var(--rare)}.skin-rarity-label.Common{color:var(--common)}
+.skin-rarity-label.Legendary{color:var(--legendary)}.skin-rarity-label.Epic{color:var(--epic)}.skin-rarity-label.Rare{color:var(--rare)}.skin-rarity-label.Common{color:var(--common)}.skin-rarity-label.Ultra{color:#ff2d2d}
 .skin-note{font-size:.68rem;color:var(--text-muted);margin-top:6px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card-actions{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:0;transition:.2s;z-index:10}
 .skin-card:hover .card-actions{opacity:1}
@@ -242,9 +245,13 @@ select option{background:var(--bg4)}
 .rand-result-card[data-rarity=Legendary]{border-color:rgba(255,185,61,.35);box-shadow:0 0 24px rgba(255,185,61,.1)}
 .rand-result-card[data-rarity=Epic]{border-color:rgba(183,110,240,.35);box-shadow:0 0 24px rgba(183,110,240,.1)}
 .rand-result-card[data-rarity=Rare]{border-color:rgba(79,168,232,.35);box-shadow:0 0 24px rgba(79,168,232,.1)}
+.rand-result-card[data-rarity=Ultra]{border-color:rgba(255,45,45,.4);box-shadow:0 0 24px rgba(255,45,45,.15)}
 .rand-result-avatar{width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:#07070a;position:relative;overflow:hidden}
 .rand-result-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
-.skin-thumb{width:100%;height:120px;overflow:hidden;background:var(--bg4)}
+.skin-thumb{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--bg4);position:relative}
+.media-badge{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border-radius:6px;padding:3px 7px;font-size:.7rem;z-index:2}
+.media-player{width:100%;border-radius:var(--r);background:var(--bg4);display:block}
+.media-player video, .media-player audio{width:100%;display:block;border-radius:var(--r)}
 .skin-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .form-hint{font-size:.68rem;color:var(--text-muted);margin-top:-2px}
 .img-preview-row{display:flex;align-items:center;gap:10px}
@@ -355,19 +362,15 @@ const ROLE_INFO = {
   damage:{label:'Dégâts', hex:'#f2544f', icon:'⚔️'},
   support:{label:'Soutien', hex:'#43d17f', icon:'✚'}
 };
-const RARITIES = ['Common','Rare','Epic','Legendary','Mythic'];
-const RARITY_LABEL = {Common:'Commun',Rare:'Rare',Epic:'Épique',Legendary:'Légendaire',Mythic:'Mythique'};
-const RARITY_HEX = {Common:'#9099a2',Rare:'#4fa8e8',Epic:'#b76ef0',Legendary:'#ffb93d',Mythic:'#ff5fa8'};
+const RARITIES = ['Common','Rare','Epic','Legendary','Mythic','Ultra'];
+const RARITY_LABEL = {Common:'Commun',Rare:'Rare',Epic:'Épique',Legendary:'Légendaire',Mythic:'Mythique',Ultra:'Ultra'};
+const RARITY_HEX = {Common:'#9099a2',Rare:'#4fa8e8',Epic:'#b76ef0',Legendary:'#ffb93d',Mythic:'#ff5fa8',Ultra:'#ff2d2d'};
 
 const CATEGORIES = [
   {id:'skin', label:'Skins', icon:'👕'},
   {id:'highlight', label:'Entrée en scène', icon:'🎬'},
   {id:'emote', label:'Emotes', icon:'💃'},
   {id:'celebration', label:'Célébrations', icon:'🏆'},
-  {id:'charm', label:'Porte-bonheur', icon:'🔮'},
-  {id:'spray', label:'Souvenirs', icon:'🎨'},
-  {id:'voiceline', label:'Répliques', icon:'💬'},
-  {id:'tag', label:'Tags', icon:'🏷️'},
   {id:'weapon', label:"Variantes d'arme", icon:'🔫'}
 ];
 const CATMAP = {}; CATEGORIES.forEach(c=>CATMAP[c.id]=c);
@@ -521,6 +524,25 @@ function updateImgPreview(inputId, previewId){
   const wrap = document.getElementById(previewId);
   wrap.innerHTML = url ? `<img src="${esc(url)}" onerror="this.parentElement.innerHTML=''">` : '';
 }
+function mediaKind(url){
+  const ext = (String(url||'').split('?')[0].split('.').pop()||'').toLowerCase();
+  if(['mp3','wav','ogg','m4a','flac','aac'].includes(ext)) return 'audio';
+  if(['mp4','webm','mov','m4v'].includes(ext)) return 'video';
+  return null;
+}
+function mediaPlayerHTML(url){
+  const kind = mediaKind(url);
+  if(!kind) return '';
+  if(kind==='audio') return `<audio class="media-player" controls src="${esc(url)}"></audio>`;
+  return `<video class="media-player" controls playsinline src="${esc(url)}"></video>`;
+}
+function updateMediaPreview(inputId, previewId){
+  const url = document.getElementById(inputId).value.trim();
+  const wrap = document.getElementById(previewId);
+  if(!url){ wrap.innerHTML=''; return; }
+  const kind = mediaKind(url);
+  wrap.innerHTML = kind ? mediaPlayerHTML(url) : `<div class="form-hint" style="color:var(--legendary)">Format non reconnu (attendu: .mp4, .webm, .mp3, .wav...)</div>`;
+}
 function shade(hex,pct){
   const n=parseInt(hex.slice(1),16);
   let r=(n>>16)+Math.round(255*pct/100), g=((n>>8)&255)+Math.round(255*pct/100), b=(n&255)+Math.round(255*pct/100);
@@ -664,7 +686,7 @@ function heroSetCategory(btn, cat){
 function getHeroItemsSorted(heroId){
   const db = loadData();
   let list = itemsForHeroCat(db, heroId, _activeCategory);
-  const rarityOrder = {Common:0,Rare:1,Epic:2,Legendary:3,Mythic:4};
+  const rarityOrder = {Common:0,Rare:1,Epic:2,Legendary:3,Mythic:4,Ultra:5};
   if(_heroSort==='az') list.sort((a,b)=>a.name.localeCompare(b.name,'fr'));
   else if(_heroSort==='recent') list.sort((a,b)=>idTimestamp(b.id)-idTimestamp(a.id));
   else if(_heroSort==='rarity') list.sort((a,b)=>rarityOrder[b.rarity]-rarityOrder[a.rarity]);
@@ -680,7 +702,7 @@ function renderHeroItemGrid(heroId){
     return `
     <div class="skin-card" data-rarity="${esc(it.rarity)}" data-name="${esc(it.name.toLowerCase())}" data-id="${esc(it.id)}" onclick="itemCardClick(event,'${esc(it.id)}','${esc(heroId)}')">
       <div class="rarity-bar ${esc(it.rarity)}"></div>
-      ${it.imageUrl ? `<div class="skin-thumb"><img src="${esc(it.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'"></div>` : ''}
+      ${it.imageUrl ? `<div class="skin-thumb"><img src="${esc(it.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'">${it.videoUrl?`<span class="media-badge">${mediaKind(it.videoUrl)==='audio'?'🎵':'🎬'}</span>`:''}</div>` : (it.videoUrl ? `<div class="skin-thumb" style="aspect-ratio:auto;padding:8px" onclick="event.stopPropagation()">${mediaPlayerHTML(it.videoUrl)}</div>` : '')}
       <div class="skin-info">
         <div class="skin-name">${esc(it.name)}</div>
         <div class="skin-meta"><span class="skin-rarity-label ${esc(it.rarity)}">${RARITY_LABEL[it.rarity]}</span>${_heroSort==='manual' ? `<span style="display:flex;gap:3px" onclick="event.stopPropagation()"><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',-1)" ${idx===0?'disabled':''}>▲</button><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',1)" ${idx===list.length-1?'disabled':''}>▼</button></span>` : ''}</div>
@@ -813,6 +835,14 @@ function openItemModal(itemId, heroId, category){
           <div class="form-hint">Colle un lien direct vers une image (se terminant par .png/.jpg/.webp...).</div>
         </div>
       </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Vidéo / audio (URL, optionnel)</label>
+          <input type="text" id="f-item-video" value="${it?esc(it.videoUrl||''):''}" placeholder="https://... (.mp4, .webm, .mp3, .wav...)" oninput="updateMediaPreview('f-item-video','f-item-video-preview')">
+          <div id="f-item-video-preview" style="margin-top:8px">${it&&it.videoUrl?mediaPlayerHTML(it.videoUrl):''}</div>
+          <div class="form-hint">Pratique pour les entrées en scène, emotes, célébrations... Se lit dans cette fenêtre.</div>
+        </div>
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
@@ -837,14 +867,15 @@ function saveItemModal(itemId, heroId){
   const name = document.getElementById('f-item-name').value.trim();
   const notes = document.getElementById('f-item-notes').value.trim();
   const imageUrl = document.getElementById('f-item-image').value.trim();
+  const videoUrl = document.getElementById('f-item-video').value.trim();
   if(!name){ showToast('Le nom est requis.','error'); return; }
   const db = loadData();
   if(itemId){
     const it = db.items.find(x=>x.id===itemId);
-    it.name=name; it.notes=notes; it.rarity=_modalRarity; it.category=_modalCategory; it.imageUrl=imageUrl;
+    it.name=name; it.notes=notes; it.rarity=_modalRarity; it.category=_modalCategory; it.imageUrl=imageUrl; it.videoUrl=videoUrl;
   }else{
     const maxOrder = Math.max(0, ...db.items.filter(x=>x.heroId===heroId && x.category===_modalCategory).map(x=>x.order||0));
-    db.items.push({ id:generateId('item'), heroId, category:_modalCategory, name, rarity:_modalRarity, notes, imageUrl, order:maxOrder+1 });
+    db.items.push({ id:generateId('item'), heroId, category:_modalCategory, name, rarity:_modalRarity, notes, imageUrl, videoUrl, order:maxOrder+1 });
   }
   saveData(db);
   closeModal(); showToast('Objet enregistré ✓');
