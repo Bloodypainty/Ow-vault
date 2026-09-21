@@ -248,11 +248,14 @@ select option{background:var(--bg4)}
 .rand-result-card[data-rarity=Ultra]{border-color:rgba(255,45,45,.4);box-shadow:0 0 24px rgba(255,45,45,.15)}
 .rand-result-avatar{width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.5rem;color:#07070a;position:relative;overflow:hidden}
 .rand-result-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
-.skin-thumb{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--bg4);position:relative}
+.skin-thumb{width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--bg4);position:relative}
 .media-badge{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border-radius:6px;padding:3px 7px;font-size:.7rem;z-index:2}
 .media-player{width:100%;border-radius:var(--r);background:var(--bg4);display:block}
-.media-player video, .media-player audio{width:100%;display:block;border-radius:var(--r)}
+.media-player video{width:100%;display:block;border-radius:var(--r);min-height:260px;background:#000}
+.media-player audio{width:100%;display:block;border-radius:var(--r)}
 .skin-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.skin-thumb .media-player{width:100%;height:100%}
+.skin-thumb .media-player video{width:100%;height:100%;min-height:0;object-fit:cover;border-radius:0;background:#000}
 .form-hint{font-size:.68rem;color:var(--text-muted);margin-top:-2px}
 .img-preview-row{display:flex;align-items:center;gap:10px}
 .img-preview-row input{flex:1}
@@ -588,15 +591,23 @@ function renderRecentList(db){
   if(recent.length===0) return '';
   return `
     <div style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.06em;font-size:.95rem;color:var(--text-dim);margin-bottom:12px">🕘 AJOUTÉS RÉCEMMENT</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
+    <div class="skins-grid">
       ${recent.map(i=>{
         const hero = getHero(db,i.heroId);
         const cat = CATMAP[i.category] || CATMAP.skin;
-        return `<div style="display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;cursor:pointer" onclick="openHeroPage('${esc(i.heroId)}')">
-          <span class="skin-rarity-label ${esc(i.rarity)}" style="min-width:70px">${RARITY_LABEL[i.rarity]}</span>
-          <span style="font-weight:600;font-size:.85rem;flex:1">${esc(i.name)}</span>
-          <span style="color:var(--text-muted);font-size:.72rem">${cat.icon} ${cat.label}</span>
-          <span style="color:var(--text-muted);font-size:.78rem">${hero?esc(hero.name):'?'}</span>
+        const thumb = i.imageUrl
+          ? `<div class="skin-thumb"><img src="${esc(i.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'">${i.videoUrl?`<span class="media-badge">${mediaKind(i.videoUrl)==='audio'?'🎵':'🎬'}</span>`:''}</div>`
+          : (i.videoUrl ? (mediaKind(i.videoUrl)==='audio' ? `<div class="skin-thumb" style="display:flex;align-items:center;padding:12px" onclick="event.stopPropagation()">${mediaPlayerHTML(i.videoUrl)}</div>` : `<div class="skin-thumb" onclick="event.stopPropagation()">${mediaPlayerHTML(i.videoUrl)}</div>`) : '');
+        return `<div class="skin-card" data-rarity="${esc(i.rarity)}" onclick="openHeroPage('${esc(i.heroId)}')">
+          <div class="rarity-bar ${esc(i.rarity)}"></div>
+          ${thumb}
+          <div class="skin-info">
+            <div class="skin-name">${esc(i.name)}</div>
+            <div class="skin-meta">
+              <span class="skin-rarity-label ${esc(i.rarity)}">${RARITY_LABEL[i.rarity]}</span>
+              <span style="color:var(--text-muted);font-size:.68rem">${cat.icon} ${hero?esc(hero.name):'?'}</span>
+            </div>
+          </div>
         </div>`;
       }).join('')}
     </div>`;
@@ -702,7 +713,7 @@ function renderHeroItemGrid(heroId){
     return `
     <div class="skin-card" data-rarity="${esc(it.rarity)}" data-name="${esc(it.name.toLowerCase())}" data-id="${esc(it.id)}" onclick="itemCardClick(event,'${esc(it.id)}','${esc(heroId)}')">
       <div class="rarity-bar ${esc(it.rarity)}"></div>
-      ${it.imageUrl ? `<div class="skin-thumb"><img src="${esc(it.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'">${it.videoUrl?`<span class="media-badge">${mediaKind(it.videoUrl)==='audio'?'🎵':'🎬'}</span>`:''}</div>` : (it.videoUrl ? `<div class="skin-thumb" style="aspect-ratio:auto;padding:8px" onclick="event.stopPropagation()">${mediaPlayerHTML(it.videoUrl)}</div>` : '')}
+      ${it.imageUrl ? `<div class="skin-thumb"><img src="${esc(it.imageUrl)}" alt="" onerror="this.parentElement.style.display='none'">${it.videoUrl?`<span class="media-badge">${mediaKind(it.videoUrl)==='audio'?'🎵':'🎬'}</span>`:''}</div>` : (it.videoUrl ? (mediaKind(it.videoUrl)==='audio' ? `<div class="skin-thumb" style="display:flex;align-items:center;padding:12px" onclick="event.stopPropagation()">${mediaPlayerHTML(it.videoUrl)}</div>` : `<div class="skin-thumb" onclick="event.stopPropagation()">${mediaPlayerHTML(it.videoUrl)}</div>`) : '')}
       <div class="skin-info">
         <div class="skin-name">${esc(it.name)}</div>
         <div class="skin-meta"><span class="skin-rarity-label ${esc(it.rarity)}">${RARITY_LABEL[it.rarity]}</span>${_heroSort==='manual' ? `<span style="display:flex;gap:3px" onclick="event.stopPropagation()"><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',-1)" ${idx===0?'disabled':''}>▲</button><button class="card-btn" style="width:22px;height:18px;font-size:.6rem;position:static;opacity:1" onclick="moveItem('${esc(it.id)}','${esc(heroId)}',1)" ${idx===list.length-1?'disabled':''}>▼</button></span>` : ''}</div>
